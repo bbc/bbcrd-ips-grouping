@@ -1,0 +1,10 @@
+[Unit]
+Description=ips-grouping
+After=mongod.service
+
+[Service]
+User=ipstudio
+ExecStart=/usr/bin/ips-grouping
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+{
+  "TEST": true,
+  "MONGO_DATABASE_URI": "mongodb://localhost/ipsgrouping-test"
+}

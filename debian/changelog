@@ -1,0 +1,7 @@
+python-grouping (0.1.0) UNRELEASED; urgency=low
+
+  * Initial Release
+
+  * Bring inline with NMOS data model
+
+ -- Pete Taylour <peter.taylour@bbc.co.uk>  Fri, 26 Feb 2016 12:07:00 +0000

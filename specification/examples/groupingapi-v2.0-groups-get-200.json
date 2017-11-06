@@ -1,0 +1,26 @@
+[{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f9",
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "c51b2f8c-c30a-4546-a4a3-d0a8257484f8",
+        "audio": "c51b2f8c-c30a-4546-a4a3-d0a8257484f7",
+        "subs": "c51b2f8c-c30a-4546-a4a3-d0a8257484f6",
+        "dialog_eng": "c51b2f8c-c30a-4546-a4a3-d0a8257484f5"
+    }
+},
+{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f4",
+    "label": "Camera A Fixed",
+    "description": "Example description",
+    "resource_type": "source",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video_raw": "c51b2f8c-c30a-4546-a4a3-d0a8257484f3",
+        "video_mezzanine": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+        "audio": "c51b2f8c-c30a-4546-a4a3-d0a8257484f1"
+    }
+}
+]

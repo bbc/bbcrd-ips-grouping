@@ -1,0 +1,15 @@
+{
+  "oauth": {
+    "proxies": {
+      "http": "www-cache.rd.bbc.co.uk:8080",
+      "https": "www-cache.rd.bbc.co.uk:8080"
+    },
+    "loginserver": "https://www.rd.bbc.co.uk/ips-accesscontrol/",
+    "access_whitelist": ["12391844", "2658239"]
+  },
+  "ssl": {
+    "certfile": "/var/ipstudio/config/new.cert.cert",
+    "keyfile": "/var/ipstudio/config/new.ssl.key",
+    "ciphers": "AES256-SHA"
+  }
+}

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+INFILES=( *.raml )
+INFILES_NOEXTENSION=${INFILES[@]%.raml}
+for FILENAME in $INFILES_NOEXTENSION
+do
+  echo "Found RAML file" $FILENAME.raml
+  raml2html $FILENAME.raml > $FILENAME.html
+  echo "Generated" $FILENAME.html
+  #if [ -e /usr/bin/ramltomd ]; then
+  #  ramltomd -i $FILENAME.raml > $FILENAME.md
+  #  echo "Generated" $FILENAME.md
+  #fi
+done
+echo ""
+echo "Linting..."
+jsonlint -v examples/*.json
+echo ""
+jsonlint -v schemas/*.json
+

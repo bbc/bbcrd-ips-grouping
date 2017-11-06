@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "description": "Patch update a resource. Include the fields to be patched. null is used to remove a field. Only some fields can be removed",
+    "title": "Group PATCH",
+    "properties": {
+      "id": {
+        "description": "Globally unique identifier for the Group",
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+      "label": {
+        "description": "Freeform string label for the Group",
+        "type": "string"
+      },
+      "description": {
+        "description": "Freeform string description for the Group",
+        "type": "string"
+      },
+      "resource_type": {
+        "description": "Type of the resources refered to in members",
+        "type": "string"
+      },
+      "members": {
+        "description": "Hash of UUIDs representing the IDs of resources to be grouped together by this group. null is used to remove a key",
+        "type": "object",
+        "patternProperties": {
+          "^.*$": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              {
+                "type": null
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "tags": {"$ref": "groupingapi-v2.0-tag.json"}
+    },
+    "additionalProperties": false
+  }

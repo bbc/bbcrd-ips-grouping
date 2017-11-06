@@ -1,0 +1,13 @@
+{
+    "id": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+        "audio": "4dc2f736-db06-11e5-b5d2-0a1d41d68543",
+        "subs": "2dc2f736-db06-11e5-b5d2-0a1d41d68599",
+        "dialog_eng": "1dc2f736-db06-11e5-b5d2-0a1d41d68578"
+    }
+}

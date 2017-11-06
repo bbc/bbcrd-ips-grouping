@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "Key value pairs used to tag resource",
+    "type": "object",
+    "patternProperties": {
+      "^.*$": {"type": "array", "items": {"type": "string"}}
+    },
+    "additionalProperties": false
+}

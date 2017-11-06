@@ -1,0 +1,6 @@
+[Unit]
+Description=ips-grouping
+
+[Service]
+User=ipstudio
+ExecStart=/usr/bin/ips-grouping

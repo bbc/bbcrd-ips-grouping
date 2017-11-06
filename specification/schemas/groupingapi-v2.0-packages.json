@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "description": "A list of Package resources",
+  "title": "Collection of Packages",
+  "items": {
+    "$ref": "groupingapi-v2.0-package.json"
+  },
+  "minItems": 0,
+  "uniqueItems": true
+}

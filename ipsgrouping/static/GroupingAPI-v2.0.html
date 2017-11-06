@@ -1,0 +1,546 @@
+<!DOCTYPE HTML><html><head><title>Grouping API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/raml2html/raml2html 3.0.1"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script><style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>Grouping API documentation <small>version v2.0</small></h1><p>http://example.api.com/x-ipstudio/grouping/v2.0</p><h3 id="Overview"><a href="#Overview">Overview</a></h3><p>The Grouping API provides read and write access to Groups and Packages of IP Studio resources. The API layer is intended to simplify management of multiple resources that can be logically grouped together.</p><p>Groups are used to collect together multiple resources (e.g. sources, flows, senders, receivers, groups) of the same type in order to retain context. For example, sources corresponding to a camera can be collected as a group.</p><p>A Group consists of a unique <code>id</code>, a <code>members</code> field (a map of named resource ids), a <code>resource_type</code> field, a <code>label</code> field, a <code>description</code> field and a <code>tags</code> field (a map between tag labels and arrays of corresponding tag values).</p><p>In the x-ipstudio implementation, all fields are maintained by the client, excluding the group id that is generated by the server.</p><p>Packages represent the contents of a Group between mininum (<code>min_ts</code>) and maximum (<code>max_ts</code>) TAI timestamps. A package of flows, for example, could represent the media content of a television programme. Packages with the max timestamp omitted can be used to represent live content, although live content could also be represented by an unpackaged group.</p><p>A package consists of a <code>group_id</code>, which references the enclosed group, <code>min_ts</code> and <code>max_ts</code> timestamp fields, and <code>label</code> and <code>tags</code> fields. The <code>label</code> and <code>tags</code> fields follow the same schema as the corresponding fields found in a group.</p><p>The Grouping API permits creation, updation and deletion of Groups and Packages. Groups and packages are accessed individually using unique ids.</p><p>The group and package endpoints can be queried using the RQL query language.</p><p><strong>Caveats</strong></p><ul><li><p>Currently a PUT operation is used to update previously created Groups and Packages. In a multi-client environment this could result in race conditions when updating group members. In order to avoid this issue, we intend to replace the PUT method with a PATCH, however the exact semantics of how group members can be added or removed with a PATCH has yet to be agreed. This may or may not require the use of an additional sub-resource.</p></li><li><p>Nodes and Devices which are themselves aware of the relationships between multiple Sources, Flows etc may be better exposing groups automatically via their IS-04 Node API rather than interacting with this API given its intentional lack of a heartbeat concept. This would require an addition to that specification, but could use the same grouping structure.</p></li></ul></div><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Base</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_"><span class="parent"></span>/</a> <span class="methods"><a href="#_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>List of paths available from this API</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/</h4></div><div class="modal-body"><div class="alert alert-info"><p>List of paths available from this API</p></div><ul class="nav nav-tabs"><li class="active"><a href="#_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>
+[
+    "groups/",
+    "packages/"
+]
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="groups" class="panel-title">Groups</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_groups"><span class="parent"></span>/groups</a> <span class="methods"><a href="#groups_get"><span class="badge badge_get">get</span></a> <a href="#groups_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_groups" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#groups_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>List Groups</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#groups_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a Group of resources</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="groups_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/groups</h4></div><div class="modal-body"><div class="alert alert-info"><p>List Groups</p></div><ul class="nav nav-tabs"><li class="active"><a href="#groups_get_request" data-toggle="tab">Request</a></li><li><a href="#groups_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="groups_get_request"><h3>Query Parameters</h3><ul><li><strong>query.rql</strong>: <em>(string)</em><p>A subset of the Resource Query Language.</p><p>It is recommended that RQL be formatted in the normalised form as opposed to using FIQL syntax. (ie <code>lt(number,10)</code>, not <code>number=lt=10</code>)</p><p>Where a given RQL operator is not implemented, the API responds with a 501.</p><p><strong>Example</strong>:</p><pre>query.rql=and(eq(resource_type,source),contains(tags.cameras,(cam_a,cam_b)))</pre></li><li><strong>resource_type</strong>: <em>(string)</em><p>filter by group resource type</p><p><strong>Example</strong>:</p><pre>resource_type=flow</pre></li><li><strong>label</strong>: <em>(string)</em><p>filter by group label</p><p><strong>Example</strong>:</p><pre>label=camera%201b</pre></li><li><strong>description</strong>: <em>(string)</em><p>filter by group description</p><p><strong>Example</strong>:</p><pre>description=S01E11</pre></li><li><strong>tags</strong>: <em>(string)</em><p>Filter by group tags.</p><p><strong>Example</strong>:</p><pre>tags.network=bbc_radio_one&amp;tags.brand=annie_mac</pre></li></ul></div><div class="tab-pane" id="groups_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "description": "A list of Group resources",
+  "title": "Collection of Groups",
+  "items": {
+    "$ref": "groupingapi-v2.0-group.json"
+  },
+  "minItems": 0,
+  "uniqueItems": true
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f9",
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "c51b2f8c-c30a-4546-a4a3-d0a8257484f8",
+        "audio": "c51b2f8c-c30a-4546-a4a3-d0a8257484f7",
+        "subs": "c51b2f8c-c30a-4546-a4a3-d0a8257484f6",
+        "dialog_eng": "c51b2f8c-c30a-4546-a4a3-d0a8257484f5"
+    }
+},
+{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f4",
+    "label": "Camera A Fixed",
+    "description": "Example description",
+    "resource_type": "source",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video_raw": "c51b2f8c-c30a-4546-a4a3-d0a8257484f3",
+        "video_mezzanine": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+        "audio": "c51b2f8c-c30a-4546-a4a3-d0a8257484f1"
+    }
+}
+]
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="groups_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/groups</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a Group of resources</p></div><ul class="nav nav-tabs"><li class="active"><a href="#groups_post_request" data-toggle="tab">Request</a></li><li><a href="#groups_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="groups_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "description": "Register a new Group or update an existing resource",
+    "title": "Group registration",
+    "required": [
+      "label",
+      "description",
+      "resource_type",
+      "members",
+      "tags"
+    ],
+    "properties": {
+      "label": {
+        "description": "Freeform string label for the Group",
+        "type": "string"
+      },
+      "description": {
+        "description": "Freeform string description for the Group",
+        "type": "string"
+      },
+      "resource_type": {
+        "description": "Type of the resources refered to in members",
+        "type": "string"
+      },
+      "members": {
+        "description": "Hash of UUIDs representing the IDs of resources to be grouped together by this group",
+        "type": "object",
+        "patternProperties": {
+          "^.*$": {
+            "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "tags": {"$ref": "groupingapi-v2.0-tag.json"}
+    },
+    "additionalProperties": false
+  }
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+        "audio": "4dc2f736-db06-11e5-b5d2-0a1d41d68543",
+        "subs": "2dc2f736-db06-11e5-b5d2-0a1d41d68599",
+        "dialog_eng": "1dc2f736-db06-11e5-b5d2-0a1d41d68578"
+    }
+}
+</code></pre></div><div class="tab-pane" id="groups_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p><strong>Example</strong>:</p><pre>/groups/7c903667-7113-4a8f-8865-1c63f9070a9e</pre></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+    "id": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+        "audio": "4dc2f736-db06-11e5-b5d2-0a1d41d68543",
+        "subs": "2dc2f736-db06-11e5-b5d2-0a1d41d68599",
+        "dialog_eng": "1dc2f736-db06-11e5-b5d2-0a1d41d68578"
+    }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_groups__groupId_"><span class="parent">/groups</span>/{groupId}</a> <span class="methods"><a href="#groups__groupId__get"><span class="badge badge_get">get</span></a> <a href="#groups__groupId__put"><span class="badge badge_put">put</span></a> <a href="#groups__groupId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_groups__groupId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#groups__groupId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get a single Group</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#groups__groupId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update a Group</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#groups__groupId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete a Group</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="groups__groupId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/groups</span>/{groupId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a single Group</p></div><ul class="nav nav-tabs"><li class="active"><a href="#groups__groupId__get_request" data-toggle="tab">Request</a></li><li><a href="#groups__groupId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="groups__groupId__get_request"><h3>URI Parameters</h3><ul><li><strong>groupId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="groups__groupId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "description": "Register a new Group or update an existing resource",
+    "title": "Group registration",
+    "required": [
+      "id",
+      "label",
+      "description",
+      "resource_type",
+      "members",
+      "tags"
+    ],
+    "properties": {
+      "id": {
+        "description": "Globally unique identifier for the Group",
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+      "label": {
+        "description": "Freeform string label for the Group",
+        "type": "string"
+      },
+      "description": {
+        "description": "Freeform string description for the Group",
+        "type": "string"
+      },
+      "resource_type": {
+        "description": "Type of the resources refered to in members",
+        "type": "string"
+      },
+      "members": {
+        "description": "Hash of UUIDs representing the IDs of resources to be grouped together by this group",
+        "type": "object",
+        "patternProperties": {
+          "^.*$": {
+            "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "tags": {"$ref": "groupingapi-v2.0-tag.json"}
+    },
+    "additionalProperties": false
+  }
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+    "id": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+        "audio": "4dc2f736-db06-11e5-b5d2-0a1d41d68543",
+        "subs": "2dc2f736-db06-11e5-b5d2-0a1d41d68599",
+        "dialog_eng": "1dc2f736-db06-11e5-b5d2-0a1d41d68578"
+    }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="groups__groupId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/groups</span>/{groupId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update a Group</p></div><ul class="nav nav-tabs"><li class="active"><a href="#groups__groupId__put_request" data-toggle="tab">Request</a></li><li><a href="#groups__groupId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="groups__groupId__put_request"><h3>URI Parameters</h3><ul><li><strong>groupId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "description": "Register a new Group or update an existing resource",
+    "title": "Group registration",
+    "required": [
+      "label",
+      "description",
+      "resource_type",
+      "members",
+      "tags"
+    ],
+    "properties": {
+      "label": {
+        "description": "Freeform string label for the Group",
+        "type": "string"
+      },
+      "description": {
+        "description": "Freeform string description for the Group",
+        "type": "string"
+      },
+      "resource_type": {
+        "description": "Type of the resources refered to in members",
+        "type": "string"
+      },
+      "members": {
+        "description": "Hash of UUIDs representing the IDs of resources to be grouped together by this group",
+        "type": "object",
+        "patternProperties": {
+          "^.*$": {
+            "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "tags": {"$ref": "groupingapi-v2.0-tag.json"}
+    },
+    "additionalProperties": false
+  }
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+        "audio": "4dc2f736-db06-11e5-b5d2-0a1d41d68543",
+        "subs": "2dc2f736-db06-11e5-b5d2-0a1d41d68599",
+        "dialog_eng": "1dc2f736-db06-11e5-b5d2-0a1d41d68578"
+    }
+}
+</code></pre></div><div class="tab-pane" id="groups__groupId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+    "id": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+    "label": "Example DASH Adaptation Set",
+    "description": "Example description of DASH Adaptation Set",
+    "resource_type": "flow",
+    "tags": {"domain": ["BBCNews"]},
+    "members": {
+        "video": "2dc2f736-db06-11e5-b5d2-0a1d41d68578",
+        "audio": "4dc2f736-db06-11e5-b5d2-0a1d41d68543",
+        "subs": "2dc2f736-db06-11e5-b5d2-0a1d41d68599",
+        "dialog_eng": "1dc2f736-db06-11e5-b5d2-0a1d41d68578"
+    }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="groups__groupId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/groups</span>/{groupId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete a Group</p></div><ul class="nav nav-tabs"><li class="active"><a href="#groups__groupId__delete_request" data-toggle="tab">Request</a></li><li><a href="#groups__groupId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="groups__groupId__delete_request"><h3>URI Parameters</h3><ul><li><strong>groupId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="groups__groupId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="packages" class="panel-title">Packages</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_packages"><span class="parent"></span>/packages</a> <span class="methods"><a href="#packages_get"><span class="badge badge_get">get</span></a> <a href="#packages_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_packages" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#packages_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>List Packages</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#packages_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a Package from a Group</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="packages_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/packages</h4></div><div class="modal-body"><div class="alert alert-info"><p>List Packages</p></div><ul class="nav nav-tabs"><li class="active"><a href="#packages_get_request" data-toggle="tab">Request</a></li><li><a href="#packages_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="packages_get_request"><h3>Query Parameters</h3><ul><li><strong>query.rql</strong>: <em>(string)</em><p>A subset of the Resource Query Language.</p><p>It is recommended that RQL be formatted in the normalised form as opposed to using FIQL syntax. (ie <code>lt(number,10)</code>, not <code>number=lt=10</code>)</p><p>Where a given RQL operator is not implemented, the API responds with a 501.</p><p><strong>Example</strong>:</p><pre>query.rql=and(eq(resource_type,source),contains(tags.cameras,(cam_a,cam_b)))</pre></li><li><strong>min_ts</strong>: <em>(string - pattern: ^\\d+:\\d+)</em><p>filter by Packages with known min_ts</p><p><strong>Example</strong>:</p><pre>min_ts=1457787633:123456789</pre></li><li><strong>max_ts</strong>: <em>(string - pattern: ^\\d+:\\d+)</em><p>filter by Packages with known max_ts</p><p><strong>Example</strong>:</p><pre>max_ts=1457787655:0</pre></li><li><strong>label</strong>: <em>(string)</em><p>filter by package label</p><p><strong>Example</strong>:</p><pre>label=Sherlock%20S05E11</pre></li><li><strong>description</strong>: <em>(string)</em><p>filter by group description</p><p><strong>Example</strong>:</p><pre>description=S01E11</pre></li><li><strong>tags</strong>: <em>(string)</em><p>Filter by group tags. Tags are key<string>: value<array[string]>pairs.</array[string]></string></p><p><strong>Example</strong>:</p><pre>tags.network=bbc_radio_one&amp;tags.brand=annie_mac</pre></li><li><strong>group_id</strong>: <em>(string - pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$)</em><p>filter by group contained by package</p><p><strong>Example</strong>:</p><pre>group_id=2dc2f736-db06-11e5-b5d2-0a1d41d68578</pre></li></ul></div><div class="tab-pane" id="packages_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "description": "A list of Package resources",
+  "title": "Collection of Packages",
+  "items": {
+    "$ref": "groupingapi-v2.0-package.json"
+  },
+  "minItems": 0,
+  "uniqueItems": true
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f1",
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+    "tags": {"network": ["bbc_one"]},
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Sherlock Series 4 Episode 2",
+    "description": "Example description of package"
+},
+{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f3",
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f4",
+    "tags": {"network": ["bbc_one"]},
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Camera A Fixed - Take 2",
+    "description": "Example description of package"
+}
+]
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="packages_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/packages</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a Package from a Group</p></div><ul class="nav nav-tabs"><li class="active"><a href="#packages_post_request" data-toggle="tab">Request</a></li><li><a href="#packages_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="packages_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "Register a new Package or update an existing resource",
+  "title": "Package registration",
+  "required": [
+    "label",
+    "description",
+    "group_id",
+    "min_ts",
+    "tags"
+  ],
+  "properties": {
+    "group_id": {
+      "description": "Globally unique identifier for packaged Group",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "label": {
+      "description": "Freeform string label for the Package",
+      "type": "string"
+    },
+    "description": {
+      "description": "Freeform string description for the Package",
+      "type": "string"
+    },
+    "min_ts": {
+      "description": "TAI timestamp formatted as &lt;s&gt;:&lt;ns&gt;",
+      "type": "string",
+      "pattern": "^\\d+:\\d+"
+    },
+    "max_ts": {
+      "description": "TAI timestamp formatted as &lt;s&gt;:&lt;ns&gt;",
+      "type": "string",
+      "pattern": "^\\d+:\\d+"
+    },
+    "tags": {"$ref": "groupingapi-v2.0-tag.json"}
+  },
+  "additionalProperties": false
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Sherlock Series 4 Episode 2",
+    "description": "Example description of package",
+    "tags": {"network": ["bbc_one"]}
+}
+</code></pre></div><div class="tab-pane" id="packages_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p><strong>Example</strong>:</p><pre>/groups/7c903667-7113-4a8f-8865-1c63f9070a9e</pre></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f1",
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Sherlock Series 4 Episode 2",
+    "description": "Example description of package",
+    "tags": {"network": ["bbc_one"]}
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_packages__packageId_"><span class="parent">/packages</span>/{packageId}</a> <span class="methods"><a href="#packages__packageId__get"><span class="badge badge_get">get</span></a> <a href="#packages__packageId__put"><span class="badge badge_put">put</span></a> <a href="#packages__packageId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_packages__packageId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#packages__packageId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get a single Package</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#packages__packageId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update a Package</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#packages__packageId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete a Package</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="packages__packageId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/packages</span>/{packageId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a single Package</p></div><ul class="nav nav-tabs"><li class="active"><a href="#packages__packageId__get_request" data-toggle="tab">Request</a></li><li><a href="#packages__packageId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="packages__packageId__get_request"><h3>URI Parameters</h3><ul><li><strong>packageId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="packages__packageId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "description": "A list of Package resources",
+  "title": "Collection of Packages",
+  "items": {
+    "$ref": "groupingapi-v2.0-package.json"
+  },
+  "minItems": 0,
+  "uniqueItems": true
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f1",
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Sherlock Series 4 Episode 2",
+    "description": "Example description of package",
+    "tags": {"network": ["bbc_one"]}
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="packages__packageId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/packages</span>/{packageId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update a Package</p></div><ul class="nav nav-tabs"><li class="active"><a href="#packages__packageId__put_request" data-toggle="tab">Request</a></li><li><a href="#packages__packageId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="packages__packageId__put_request"><h3>URI Parameters</h3><ul><li><strong>packageId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "Register a new Package or update an existing resource",
+  "title": "Package registration",
+  "required": [
+    "label",
+    "description",
+    "group_id",
+    "min_ts",
+    "tags"
+  ],
+  "properties": {
+    "group_id": {
+      "description": "Globally unique identifier for packaged Group",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "label": {
+      "description": "Freeform string label for the Package",
+      "type": "string"
+    },
+    "description": {
+      "description": "Freeform string description for the Package",
+      "type": "string"
+    },
+    "min_ts": {
+      "description": "TAI timestamp formatted as &lt;s&gt;:&lt;ns&gt;",
+      "type": "string",
+      "pattern": "^\\d+:\\d+"
+    },
+    "max_ts": {
+      "description": "TAI timestamp formatted as &lt;s&gt;:&lt;ns&gt;",
+      "type": "string",
+      "pattern": "^\\d+:\\d+"
+    },
+    "tags": {"$ref": "groupingapi-v2.0-tag.json"}
+  },
+  "additionalProperties": false
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Sherlock Series 4 Episode 2",
+    "description": "Example description of package",
+    "tags": {"network": ["bbc_one"]}
+}
+</code></pre></div><div class="tab-pane" id="packages__packageId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+    "id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f1",
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Sherlock Series 4 Episode 2",
+    "description": "Example description of package",
+    "tags": {"network": ["bbc_one"]}
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="packages__packageId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/packages</span>/{packageId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete a Package</p></div><ul class="nav nav-tabs"><li class="active"><a href="#packages__packageId__delete_request" data-toggle="tab">Request</a></li><li><a href="#packages__packageId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="packages__packageId__delete_request"><h3>URI Parameters</h3><ul><li><strong>packageId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="packages__packageId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#">Base</a></li><li><a href="#groups">Groups</a></li><li><a href="#packages">Packages</a></li></ul></div></div></div></div></body></html>

@@ -1,0 +1,106 @@
+#!/usr/bin/python
+#
+# Copyright 2017 British Broadcasting Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import argparse
+import requests
+import sys
+import json
+from functools import partial
+
+
+API = 'http://{}{}/'
+
+
+def import_items(url, items):
+    for i, item in enumerate(items):
+        resp = import_resource(url, item)
+
+        try:
+            resp.raise_for_status()
+        except Exception as ex:
+            print '\nThis item caused an error:\n{}\n'.format(item)
+            print 'PUT to {}\n\n'.format(url)
+            print resp.content
+            raise ex
+
+        print_progress(i + 1, len(items))
+
+
+def delete_all(url, xs):
+    for i, x in enumerate(xs):
+        req_url = url + x['id'] + '/'
+        resp = requests.delete(req_url)
+        try:
+            resp.raise_for_status()
+        except Exception as ex:
+            print 'DELETE to {}\n\n'.format(req_url)
+            print resp.content
+            raise ex
+        print_progress(i + 1, len(xs))
+
+
+def import_resource(url, body):
+    return requests.put(url, json.dumps(body), headers={'content-type': 'application/json'})
+
+
+def parse_file(file):
+    with open(file) as f:
+        return json.load(f)
+
+
+def print_progress(i, N):
+    sys.stdout.write("\r%d%%" % (100 * i / N))
+    sys.stdout.flush()
+
+
+def parse():
+    parser = argparse.ArgumentParser('Import dumps of packages and groups to a grouping api instance')
+    parser.add_argument('uri', nargs='?', default='localhost/x-ipstudio/grouping/v1.0/', help='api uri. eg. localhost/x-ipstudio/grouping/v1.0/')
+    parser.add_argument('--groups', help='path to json file')
+    parser.add_argument('--packages', help='path to json file')
+    parser.add_argument('--clean', action='store_true', help='Remove existing groups and packages (DANGER)')
+    return parser
+
+
+if __name__ == '__main__':
+    parser = parse()
+    args = parser.parse_args()
+
+    if (args.groups and args.packages) is None:
+        parser.print_help()
+
+    api = partial(API.format, args.uri)
+
+    if args.clean:
+        print '\nRemoving all existing grouping and packages!!'
+
+        groups = requests.get(api('groups')).json()
+        print '\n{} group(s) with related package(s)'.format(len(groups))
+        delete_all(api('groups'), groups)
+
+        packages = requests.get(api('packages')).json()
+        print '\n{} package(s) left to remove'.format(len(packages))
+        delete_all(api('packages'), packages)
+
+    if args.groups:
+        groups = parse_file(args.groups)
+        print '\n\nImporting {} group(s):'.format(len(groups))
+        import_items(api('groups'), groups)
+
+    if args.packages:
+        packages = parse_file(args.packages)
+        print '\n\nImporting {} package(s):'.format(len(packages))
+        import_items(api('packages'), packages)

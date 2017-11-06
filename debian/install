@@ -1,0 +1,4 @@
+etc/config/config.json /etc/ips-grouping
+etc/apache2/sites-available/*.conf /etc/apache2/sites-available/
+etc/init/ips-grouping.conf /etc/init/
+lib/systemd/system/ips-grouping.service /lib/systemd/system/

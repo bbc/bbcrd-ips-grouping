@@ -1,0 +1,8 @@
+{
+    "group_id": "c51b2f8c-c30a-4546-a4a3-d0a8257484f2",
+    "min_ts": "1487334138:1233",
+    "max_ts": "1487335000:25987373",
+    "label": "Sherlock Series 4 Episode 2",
+    "description": "Example description of package",
+    "tags": {"network": ["bbc_one"]}
+}

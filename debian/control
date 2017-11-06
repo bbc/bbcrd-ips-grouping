@@ -1,0 +1,14 @@
+Source: python-grouping
+Maintainer: Pete Taylour <peter.taylour@bbc.co.uk>
+Section: python
+Priority: optional
+Build-Depends: python-all (>= 2.6.6-3), debhelper (>= 7), python-nmoscommon, python-nose, python-mock
+Standards-Version: 3.9.1
+
+Package: python-grouping
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python-nmoscommon, python-jsonschema, mongodb, python-pymongo, ips-reverseproxy-common
+Description: Provides Grouping functionality for IP Studio resources
+ The Grouping API provides read and write access to Groups and Packages of IP Studio resources.
+ Groups are used to collect together multiple resources (eg sources, flows, senders, receivers) of the same type in order to retain context. For example, sources corresponding to a camera can be collected as a group. A Group consists of an array of resource ids, a type field, denoting the resource type and a name. The type and name fields are maintained by the client.
+ Packages represent the contents of a Group between a min and max timestamp. For example, a package of flows could represent the media content of a television programme. Packages with the max timestamp ommitted can be used to represent live content.

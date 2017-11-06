@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "description": "Describes a Package",
+    "title": "Package resource",
+    "required": [
+      "id",
+      "label",
+      "description",
+      "group_id",
+      "min_ts",
+      "tags"
+    ],
+    "properties": {
+      "id": {
+        "description": "Globally unique identifier for the Package",
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+      "group_id": {
+        "description": "Globally unique identifier for packaged Group",
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+      "label": {
+        "description": "Freeform string label for the Package",
+        "type": "string"
+      },
+      "description": {
+        "description": "Freeform string description for the Package",
+        "type": "string"
+      },
+      "min_ts": {
+        "description": "TAI timestamp formatted as <s>:<ns>",
+        "type": "string",
+        "pattern": "^\\d+:\\d+"
+      },
+      "max_ts": {
+        "description": "TAI timestamp formatted as <s>:<ns>",
+        "type": "string",
+        "pattern": "^\\d+:\\d+"
+      },
+      "tags": {"$ref": "groupingapi-v2.0-tag.json"}
+    },
+    "additionalProperties": false
+  }
