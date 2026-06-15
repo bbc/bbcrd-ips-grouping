@@ -37,7 +37,7 @@ group_schema = {
             "type": "string"
         },
         "resource_type": {
-            "description": "Type of the resources refered to in members",
+            "description": "Type of the resources referred to in members",
             "type": "string"
         },
         "members": {

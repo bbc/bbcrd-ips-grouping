@@ -101,7 +101,7 @@ def _translate_to(logger, version, item):
     if item_version == version:
         return item
     else:
-        raise TranslationException('Translation not regonised for {} to {}'.format(item_version, version))
+        raise TranslationException('Translation not recognised for {} to {}'.format(item_version, version))
 
 
 def parse_tags_query(args):
@@ -161,5 +161,5 @@ class RouteBase(object):
     def get_request_json_or_abort():
         ret = request.get_json()
         if ret is None:
-            abort(400, "Only accepts context-type: application/json")
+            abort(400, "Only accepts Content-Type: application/json")
         return ret
