@@ -14,7 +14,7 @@
 
 tag_schema = {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "description": "kay value pairs used to tag resource",
+    "description": "key value pairs used to tag resource",
     "type": "object",
     "patternProperties": {
       "^.*$": {"type": "array", "items": {"type": "string"}}
